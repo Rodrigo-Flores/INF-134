@@ -36,7 +36,7 @@ int main () {
     for (int i = 0; i < V; i++) {
         cout << "u[" << i + 1 <<  "] conecta con: ";
         for (int j = 0; j < AdjList[i].size(); j++) {
-            cout << AdjList[i][j].first +1 << " ";
+            cout << AdjList[i][j].first + 1 << " ";
         }
         cout << endl;
     }
