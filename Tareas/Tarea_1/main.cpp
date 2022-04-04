@@ -1,62 +1,24 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
-struct Ticket {
+#define N 4000 // tamaño de la base de datos
+
+// esta estructura será la que ocupemos para leer los datos del archivo .dat
+struct Ticket
+{
 	char rut_funcionario[10];
 	int day_of_month;
-	char time[10];
+	char time[6];
 };
 
-int main() {
-	string s1, s2;
-	// int a;
+int main()
+{
+	// leyendo archivo de tipo ASCII
+	/*
 	ifstream fp;
-
-
-	/* ESCRIBIMOS EN UN ARCHIVO ASCII */
-	/*
-	// se abre el archivo
-	fp.open("servicios.txt");
-
-	// verificamos si el archivo se abre correctamente
-	if (!fp.is_open()) {
-		cout << "Error al abrir el archivo" << endl;
-		return 1;
-	}
-	// escribe un string en el archivo
-	fp << "ESCRIBIENDO TEXTO" << endl;
-
-	// escribe un entero en el arhcivo
-	fp << 2022 << endl;
-
-	// se cierra el archivo
-	fp.close()
-
-	fp.open("servicios.txt");
-	if (!fp.is_open()) {
-		cout << "Error al abrir el archivo" << endl;
-		return 1;
-	}
-	*/
-
-	/* LEEMOS UN ARCHIVO ASCII */
-	/*
-	// lee "ESCRIBIENDO" y lo guarda en s1
-	fp >> s1;
-
-	// lee TEXTO y lo guarda en s2
-	fp >> s1;
-
-	// lee 2022 y lo guarda en a
-	fp >> a;
-
-	fp.close()
-	*/
-
-	/* LEYENDO CARACTER A CARACTER */
-
 	char c;
 	fp.open("sismos.txt");
 	if (!fp.is_open ()) {
@@ -68,6 +30,33 @@ int main() {
 	}
 	cout << endl;
 	fp.close ();
+	*/
 
+	// leyendo archivo de tipo binario
+	ifstream fp;
+	Ticket tickets; // dado que no es un array, luego al leer en el while, no se guardarán los datos anteriores
+	int n;
+
+	// se abre le archivo binario
+	fp.open("casoT1/tickets.dat", ios::binary);
+	if (!fp.is_open())
+	{
+		cerr << " Error el abrir el archivo " << endl;
+		return -1; // error
+	}
+
+	// se lee el primer dato de tipo entero, el cual indica en número de tickets
+	fp.read((char *)&n, sizeof(int));
+	cout << n << endl;
+
+	// buscamos el resto de datos dados por la estructura Ticket
+	while (fp.read((char*)&tickets, sizeof(Ticket)))
+	{
+		cout << "RUT: " << tickets.rut_funcionario << "\tDía del mes: " << tickets.day_of_month << "\tHora: " << tickets.time << endl;
+	}
+
+	fp.close();
+
+	system("pause");
 	return 0;
 }
