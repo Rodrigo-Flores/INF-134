@@ -2,9 +2,8 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <typeinfo>
 using namespace std;
-
-#define N 4000 // tamaño de la base de datos
 
 // esta estructura será la que ocupemos para leer los datos del archivo .dat
 struct Ticket
@@ -14,45 +13,89 @@ struct Ticket
 	char time[6];
 };
 
+void swap(Ticket &a, Ticket &b)
+{
+	Ticket temp = a;
+	a = b;
+	b = temp;
+}
+
+void checkInvalidTickets (Ticket data[]) {
+	int i = 0;
+	while (i < 10) {
+		if (data[i].day_of_month < 1 || data[i].day_of_month > 31) {
+			cout << "Invalid day of month: " << data[i].day_of_month << endl;
+			exit(1);
+		}
+		if (data[i].time[0] < '0' || data[i].time[0] > '9') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		if (data[i].time[1] < '0' || data[i].time[1] > '9') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		if (data[i].time[2] != ':') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		if (data[i].time[3] < '0' || data[i].time[3] > '9') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		if (data[i].time[4] < '0' || data[i].time[4] > '9') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		if (data[i].time[5] != '\0') {
+			cout << "Invalid time: " << data[i].time << endl;
+			exit(1);
+		}
+		i++;
+	}
+}
+
 int main()
 {
-	// leyendo archivo de tipo ASCII
-	/*
-	ifstream fp;
-	char c;
-	fp.open("sismos.txt");
-	if (!fp.is_open ()) {
-		cout << "Error  el abrir  el  archivo" << endl;
-		return 1; //
-	}
-	while((c = fp.get()) != EOF) {
-		cout << c;
-	}
-	cout << endl;
-	fp.close ();
-	*/
-
 	// leyendo archivo de tipo binario
 	ifstream fp;
 	Ticket tickets; // dado que no es un array, luego al leer en el while, no se guardarán los datos anteriores
-	int n;
 
 	// se abre le archivo binario
+
 	fp.open("casoT1/tickets.dat", ios::binary);
 	if (!fp.is_open())
 	{
 		cerr << " Error el abrir el archivo " << endl;
 		return -1; // error
 	}
-
+	int n;
 	// se lee el primer dato de tipo entero, el cual indica en número de tickets
 	fp.read((char *)&n, sizeof(int));
-	cout << n << endl;
-
-	// buscamos el resto de datos dados por la estructura Ticket
-	while (fp.read((char*)&tickets, sizeof(Ticket)))
+	Ticket ticketsData[n]; // declaramos el array para guardar la información de los tickets
+	if (!fp.is_open())
 	{
-		cout << "RUT: " << tickets.rut_funcionario << "\tDía del mes: " << tickets.day_of_month << "\tHora: " << tickets.time << endl;
+		cerr << " Error el abrir el archivo " << endl;
+		return -1; // error
+	}
+
+	int i = 0;
+	while (fp.read((char *)&tickets, sizeof(Ticket)))
+	{
+		// cout << typeid(tickets.rut_funcionario).name() << "\t" << typeid(tickets.day_of_month).name() << "\t" << typeid(tickets.time).name() << endl;
+		ticketsData[i] = tickets; // guardamos los datos en el array de tipo Ticket
+		i++;
+	}
+	
+	for (int j = 0; j < n; j++)
+	{
+		cout << ticketsData[j].rut_funcionario << "\t" << ticketsData[j].day_of_month << "\t" << ticketsData[j].time << endl;
+	}
+
+	cout << "NEW SORTING" << endl;
+	for (int j = 0; j < n; j++)
+	{
+		cout << ticketsData[j].rut_funcionario << "\t" << ticketsData[j].day_of_month << "\t" << ticketsData[j].time << endl;
 	}
 
 	fp.close();
