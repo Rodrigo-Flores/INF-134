@@ -13,48 +13,40 @@ struct Ticket
 	char time[6];
 };
 
-void swap(Ticket &a, Ticket &b)
+void identificarServicioPorHora(char time[6])
 {
-	Ticket temp = a;
-	a = b;
-	b = temp;
-}
-
-void checkInvalidTickets (Ticket data[]) {
-	int i = 0;
-	while (i < 10) {
-		if (data[i].day_of_month < 1 || data[i].day_of_month > 31) {
-			cout << "Invalid day of month: " << data[i].day_of_month << endl;
-			exit(1);
-		}
-		if (data[i].time[0] < '0' || data[i].time[0] > '9') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		if (data[i].time[1] < '0' || data[i].time[1] > '9') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		if (data[i].time[2] != ':') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		if (data[i].time[3] < '0' || data[i].time[3] > '9') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		if (data[i].time[4] < '0' || data[i].time[4] > '9') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		if (data[i].time[5] != '\0') {
-			cout << "Invalid time: " << data[i].time << endl;
-			exit(1);
-		}
-		i++;
+	if ((time[0] == '0') && (time[1] > '6'))
+	{
+		cout << "DESAYUNO" << endl;
+	}
+	else if ((time[0] = '1') && (time[1] < '5'))
+	{
+		cout << "ALMUERZO" << endl;
+	}
+	else if ((time[0] == '1') && ((time[1] < '9') && (time[1] > '8')))
+	{
+		cout << "ONCE" << endl;
+	}
+	else if ((time[0] == '2') && (time[1] < '2'))
+	{
+		cout << "CENA" << endl;
+	}
+	else if (((time[0] == '2') && (time[1] < '4')) || ((time[0] == '0') && (time[1] > '3'))) { // pendiente
+		cout << "NOCTURNO" << endl;
+	}
+	else
+	{
+		cout << "INVALIDO" << endl;
 	}
 }
-
+/*
+void ticketValidoPorDiarios(char time[6])
+{
+	if (time[0] > )
+{
+	// verificaremos el timepo de servicio
+}
+*/
 int main()
 {
 	// leyendo archivo de tipo binario
@@ -73,11 +65,6 @@ int main()
 	// se lee el primer dato de tipo entero, el cual indica en número de tickets
 	fp.read((char *)&n, sizeof(int));
 	Ticket ticketsData[n]; // declaramos el array para guardar la información de los tickets
-	if (!fp.is_open())
-	{
-		cerr << " Error el abrir el archivo " << endl;
-		return -1; // error
-	}
 
 	int i = 0;
 	while (fp.read((char *)&tickets, sizeof(Ticket)))
@@ -86,16 +73,14 @@ int main()
 		ticketsData[i] = tickets; // guardamos los datos en el array de tipo Ticket
 		i++;
 	}
-	
-	for (int j = 0; j < n; j++)
-	{
-		cout << ticketsData[j].rut_funcionario << "\t" << ticketsData[j].day_of_month << "\t" << ticketsData[j].time << endl;
-	}
 
-	cout << "NEW SORTING" << endl;
 	for (int j = 0; j < n; j++)
 	{
-		cout << ticketsData[j].rut_funcionario << "\t" << ticketsData[j].day_of_month << "\t" << ticketsData[j].time << endl;
+		// cout << ticketsData[j].rut_funcionario << "\t" << ticketsData[j].day_of_month << "\t" << ticketsData[j].time << endl;
+		identificarServicioPorHora(ticketsData[j].time);
+		cout << ticketsData[j].time[0] << ticketsData[j].time[1] << endl;
+		cout << ticketsData[j].time << endl;
+		cout << " - - - - - - - - - - - - - - - - - " << endl;
 	}
 
 	fp.close();
