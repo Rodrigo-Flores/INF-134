@@ -13,6 +13,14 @@ struct Ticket
 	char time[6];
 };
 
+struct Servicio {
+	char nombre[20];
+	int ticketDiario;
+	int ticketMensual;
+	char tiempoInicio[6];
+	char tiempoFin[6];
+};
+
 void identificarServicioPorHora(char time[6])
 {
 	if ((time[0] == '0') && (time[1] > '6'))
