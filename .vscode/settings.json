@@ -17,7 +17,8 @@
         "typeinfo": "cpp",
         "fstream": "cpp",
         "iosfwd": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "future": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
