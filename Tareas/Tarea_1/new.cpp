@@ -273,9 +273,19 @@ int main()
 
     ordernarLexicograficamente(trabajadoresData, total_ruts);
 
+   // wirte in a txt file as: rut validos/totales
+
+    ofstream fp3;
+    fp3.open("casoT1/salida.txt");
+    if (!fp3.is_open())
+    {
+        cerr << " Error el abrir el archivo " << endl;
+        return -1; // error
+    }
+
     for (int i = 0; i < total_ruts; i++)
     {
-        cout << i + 1 << ": " << trabajadoresData[i].rut << " " << trabajadoresData[i].ticketsValidos << "/" << trabajadoresData[i].ticketsTotales << endl;
+        fp3 << trabajadoresData[i].rut << " " << trabajadoresData[i].ticketsValidos << "/" << trabajadoresData[i].ticketsTotales << endl;
     }
 
     fp2.close();
