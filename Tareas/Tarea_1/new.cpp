@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Estructura de Ticket que utilizaremos para leer el archivo binario y la creación de arrays
 struct Ticket
 {
     char rut_funcionario[10];
@@ -11,6 +12,7 @@ struct Ticket
     char time[6];
 };
 
+// Estrucutura de Servicio que utilizaremos para guardar los datos de servicios.txt en un array
 struct Servicio
 {
     char nombre[20];
@@ -20,14 +22,25 @@ struct Servicio
     char tiempoFin[6];
 };
 
+// Estructura de Trabajador que utilizaremos para guardar la información final de sus tickets (como una especie de hash)
 struct Trabajador
 {
     char rut[10];
-    int ticketsValidos;
-    int ticketsInvalidos;
-    int ticketsTotales;
+    int ticketsValidos = 0;
+    int ticketsTotales = 0;
 };
 
+/*****
+ * int pasarHoraASegundos
+ ******
+ * Transforma hora de formato hh:mm a segundos representados
+ ******
+ * Input:
+ * int time[6] : Recibe un array de hora con formato hh:mm
+ ******
+ * Returns:
+ * int, retorna la hora representada en segundos
+ *****/
 int pasarHoraASegundos(char time[6])
 {
     int hora = (time[0] - '0') * 10 + (time[1] - '0');
@@ -35,7 +48,19 @@ int pasarHoraASegundos(char time[6])
     return hora * 3600 + minutos * 60;
 }
 
-
+/*****
+ * bool ticketsValidosPorHoraServicio
+ ******
+ * Se encarga de ver si un ticket es válido o no. Esto dependerá si el ticket fue emitido en un horario válido para un servicio
+ ******
+ * Input:
+ * char time[6] : Recibe la hora del ticket actual
+ * Servicio servicio[] : Recibe un array de tipo Servicio que contiene los servicios de servicios.txt
+ * int size : Recibe el tamaño del array servicio[]
+ ******
+ * Returns:
+ * bool, retorna true si el ticket es válido, en el caso contrario retorna false
+ *****/
 bool ticketsValidosPorHoraServicio(char time[6], Servicio servicio[], int size)
 {
     bool valid = false;
@@ -59,49 +84,59 @@ bool ticketsValidosPorHoraServicio(char time[6], Servicio servicio[], int size)
     return valid;
 }
 
-bool ticketsValidosPorDia(int day_of_month, Ticket tickets[], int size)
+/*****
+ * Trabajador ordernarLexicograficamente
+ ******
+ * Es básicamente el bubblesort de nuestro programa. Ordena los trabajadores por rut lexicográficamente.
+ * Los cambios se hacen con la dirección de memoria, por lo que no se retorna nada; no es necesario, pues
+ * el ordenamiento cambia direcatamente en la memoria.
+ ******
+ * Input:
+ * Trabajador (&trabajador)[] : Recibimos la dirección de memoria de un array de tipo Trabajador
+ * int size : Recibe el tamaño del array trabajador[]
+ ******
+ * Returns:
+ * void, no retorna nada
+ *****/
+
+void ordernarLexicograficamente(Trabajador trabajadoresData[], int size)
 {
-    bool valid = false;
-    for (int i = 0; i < size; i++){
-        if (tickets[i].day_of_month == day_of_month){
-            valid = true;
+    Trabajador aux;
+    for (int i = 0; i <= size; i++)
+    {
+        for (int j = i; j < size; j++)
+        {
+            if (strcmp(trabajadoresData[i].rut, trabajadoresData[j].rut) > 0)
+            {
+                aux = trabajadoresData[i];
+                trabajadoresData[i] = trabajadoresData[j];
+                trabajadoresData[j] = aux;
+            }
         }
     }
-
-    return valid;
 }
 
-bool ticketsValidosPorMes(int day_of_month, Servicio servicio[], int size)
+/*****
+ *
+ ******
+ *
+ ******
+ * Input:
+ *
+ ******
+ * Returns:
+ *
+ *****/
+bool buscarRut(string ruts[], string value, int size)
 {
-    bool valid = false;
     for (int i = 0; i < size; i++)
     {
-        if (servicio[i].ticketMensual <= day_of_month)
+        if (value == ruts[i])
         {
-            valid = true;
+            return true;
         }
     }
-
-    return valid;
-}
-
-int obtenerTicketsEmitidosPorRut(char (&rut)[10], Ticket tickets[], int cantidadTickets)
-{
-    int ticketsEmitidos = 0;
-    for (int i = 0; i < cantidadTickets; i++)
-    {
-        if (strcmp(rut, tickets[i].rut_funcionario) == 0)
-        {
-            ticketsEmitidos++;
-        }
-    }
-
-    return ticketsEmitidos;
-}
-
-int obtenerTicketsValidosPorRut(char rut_funcionario[10], Ticket ticket[], int size)
-{
-
+    return false;
 }
 
 int main()
@@ -129,6 +164,39 @@ int main()
         ticketsData[j] = tickets; // guardamos los datos en el array de tipo Ticket
         j++;
     }
+
+    string pre_ruts[numeroTickets]{"\0"};
+    for (int i = 0; i < numeroTickets; i++)
+    {
+        if (!buscarRut(pre_ruts, ticketsData[i].rut_funcionario, numeroTickets))
+        {
+            pre_ruts[i] = ticketsData[i].rut_funcionario;
+        }
+    }
+
+    int total_ruts = 0;
+    for (int i = 0; i < numeroTickets; i++)
+    {
+        if (pre_ruts[i] != "\0")
+        {
+            total_ruts++;
+        }
+    }
+
+    string ruts[total_ruts];
+    for (int i = 0; i < total_ruts; i++)
+    {
+        for (int j = 0; j < numeroTickets; j++)
+        {
+            if (pre_ruts[j] != "\0")
+            {
+                ruts[i] = pre_ruts[j];
+                pre_ruts[j] = "\0";
+                break;
+            }
+        }
+    }
+
 
     fp.close();
 
@@ -180,17 +248,45 @@ int main()
         strcpy(serviciosData[i].tiempoFin, tiempoFin.c_str());
     }
 
-
-
-    for (int i = 0; i < numeroTickets; i++)
+    Trabajador trabajadoresData[total_ruts];
+    for (int i = 0; i < total_ruts; i++)
     {
-        ticketsValidosPorHoraServicio(ticketsData[i].time, serviciosData, numeroservicios);
-        // ticketsValidosPorDia(ticketsData[i].day_of_month, serviciosData, numeroservicios);
-        // ticketsValidosPorMes(ticketsData[i].day_of_month, serviciosData, numeroservicios);
-        // cout << " - - - - - - - - - - - - - - - - - - " << endl;
+        Trabajador trabajador;
+        strcpy(trabajador.rut, ruts[i].c_str());
+        trabajadoresData[i] = trabajador;
+    }
+
+    for (int i = 0; i < total_ruts; i++)
+    {
+        for (int j = 0; j < numeroTickets; j++)
+        {
+            if (strcmp(trabajadoresData[i].rut, ticketsData[j].rut_funcionario) == 0)
+            {
+                if (ticketsValidosPorHoraServicio(ticketsData[j].time, serviciosData, numeroservicios))
+                {
+                    trabajadoresData[i].ticketsValidos++;
+                }
+                trabajadoresData[i].ticketsTotales++;
+            }
+        }
+    }
+
+    ordernarLexicograficamente(trabajadoresData, total_ruts);
+
+    for (int i = 0; i < total_ruts; i++)
+    {
+        cout << i + 1 << ": " << trabajadoresData[i].rut << " " << trabajadoresData[i].ticketsValidos << "/" << trabajadoresData[i].ticketsTotales << endl;
     }
 
     fp2.close();
 
     return 0;
 }
+
+/*
+
+1. Función para contar trabajadores, es decir, contar emisiones de ticket sin repetir el rut
+
+2. Crear algoritmo de ordenamiento por rut
+
+*/
