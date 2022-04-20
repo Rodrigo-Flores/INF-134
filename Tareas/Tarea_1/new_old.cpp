@@ -124,18 +124,14 @@ void ordernarLexicograficamente(Trabajador trabajadoresData[], int size)
 }
 
 /*****
- * bool buscarRut
+ *
  ******
- * Basicamente busca si un rut esta en el arreglo de ruts
+ *
  ******
  * Input:
- * string ruts[] : arreglo de ruts
- * string value : es donde vamos a sacar la informacion para comparar
- * int size : Recibe el tamaño del array ruts[]
+ *
  ******
  * Returns:
- * Retorna true si el valor esta en el arreglo de ruts.
- * Retorna falso si no se encuentra el valor en el arreglo de ruts.
  *
  *****/
 bool buscarRut(string ruts[], string value, int size)
@@ -154,31 +150,28 @@ int main()
 {
     ifstream fp;
 
-    // abriendo archivo binario para la lectura de tickets
+    // abriendo archivo
     fp.open("casoT1/tickets.dat", ios::binary);
-
-    // verificamos que el archivo se abre correctamente
     if (!fp.is_open())
     {
         cerr << " Error el abrir el archivo " << endl;
         return -1; // error
     }
 
-    // lee el primer dato de tipo entero, el cual indica en número de tickets
+    // se lee el primer dato de tipo entero, el cual indica en número de tickets
     int numeroTickets;
     fp.read((char *)&numeroTickets, sizeof(int));
     Ticket ticketsData[numeroTickets]; // declaramos el array para guardar la información de los tickets
 
-    // guarda los datos de tickets en un array de tipo Ticket
+    // guardaremos los datos de tickets en un array de tipo Ticket
     Ticket tickets;
     int j = 0;
     while (fp.read((char *)&tickets, sizeof(Ticket)))
     {
-        ticketsData[j] = tickets;
+        ticketsData[j] = tickets; // guardamos los datos en el array de tipo Ticket
         j++;
     }
 
-    // inicia un array para guardar los ruts unicos
     string pre_ruts[numeroTickets]{"\0"};
     for (int i = 0; i < numeroTickets; i++)
     {
@@ -188,7 +181,6 @@ int main()
         }
     }
 
-    // verifica cuantos ruts de personas distintas hay, para obtener el numero total de ruts
     int total_ruts = 0;
     for (int i = 0; i < numeroTickets; i++)
     {
@@ -198,7 +190,6 @@ int main()
         }
     }
 
-    // Se crea un arreglo ruts unico que se acomoda al tamaño de los ruts
     string ruts[total_ruts];
     for (int i = 0; i < total_ruts; i++)
     {
@@ -213,13 +204,9 @@ int main()
         }
     }
 
-    // se cierra el archivo binario
     fp.close();
 
-    // se abre el archivo ASCII de servicios
     ifstream fp2;
-
-    // verifica que el archivo se abrió
     fp2.open("casoT1/servicios.txt");
     if (!fp2.is_open())
     {
@@ -227,9 +214,9 @@ int main()
         return -1; // error
     }
 
-    // se obtiene la primera linea, para luego convertirla de un string a un int
     string line;
     getline(fp2, line);
+
     int numeroservicios = stoi(line);
     string servicios[numeroservicios];
     for (int i = 0; i < numeroservicios; i++)
@@ -238,18 +225,11 @@ int main()
         servicios[i] = line;
     }
 
-    /*
-
-    Lo que pasa aquí abajo es lo siguiente:
-        1.- crea un array del tamaño de servivios
-        2.- crea una variable para guardar el servicios actual
-        3.- saca el primer dato encontrado hasta antes del espacio y lo guarda
-        4.- borra todo lo anterior al último dato encontrado
-        5.- se repite el paso 3 y 4 hasta que no queda nada
-    */
+    // split servicios.txt by name int int time time
     Servicio serviciosData[numeroservicios];
     for (int i = 0; i < numeroservicios; i++)
     {
+        // split string
         string servicio = servicios[i];
 
         string servicio_name = servicio.substr(0, servicio.find(" "));
@@ -274,7 +254,6 @@ int main()
         strcpy(serviciosData[i].tiempoFin, tiempoFin.c_str());
     }
 
-    // se crea un arreglo de trabajadores data usando la struct trabajador
     Trabajador trabajadoresData[total_ruts];
     for (int i = 0; i < total_ruts; i++)
     {
@@ -283,13 +262,11 @@ int main()
         trabajadoresData[i] = trabajador;
     }
 
-    // crea cuatro variables para cuatro filtros de los tickets que estarán asociados a funciones
     bool filtro_1 = false; // por hora de servicio
     bool filtro_2 = false; // más de 100 tickets
     // bool filtro_3 = false; // por mes
     // bool filtro_4 = false; // por día
 
-    // recorre los tickets y los pasa por lo filtros correspondientes
     for (int i = 0; i < total_ruts; i++)
     {
         for (int j = 0; j < numeroTickets; j++)
@@ -307,27 +284,21 @@ int main()
         }
     }
 
-    // se ordena por rut pasando valores por referencia
     ordernarLexicograficamente(trabajadoresData, total_ruts);
 
-    // se abre el ultimo archivo que será la salida
     ofstream fp3;
     fp3.open("casoT1/salida.txt");
-
-    // se verifica que se puedo crear correctamente
     if (!fp3.is_open())
     {
         cerr << " Error el abrir el archivo " << endl;
         return -1; // error
     }
 
-    // escribe dentro en el formato requerido
     for (int i = 0; i < total_ruts; i++)
     {
         fp3 << trabajadoresData[i].rut << " " << trabajadoresData[i].ticketsValidos << "/" << trabajadoresData[i].ticketsTotales << endl;
     }
 
-    // se cierra el archivo para guardar lo escrito
     fp2.close();
 
     return 0;
