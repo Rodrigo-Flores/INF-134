@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Estructura de Ticket que utilizaremos para leer el archivo binario y la creación de arrays
+// estructura de Ticket para leer el archivo binario y la creación de arrays
 struct Ticket
 {
     char rut_funcionario[10];
@@ -12,7 +12,7 @@ struct Ticket
     char time[6];
 };
 
-// Estrucutura de Servicio que utilizaremos para guardar los datos de servicios.txt en un array
+// estrucutura de Servicio para guardar los datos de servicios.txt en un array
 struct Servicio
 {
     char nombre[20];
@@ -22,7 +22,7 @@ struct Servicio
     char tiempoFin[6];
 };
 
-// Estructura de Trabajador que utilizaremos para guardar la información final de sus tickets (como una especie de hash)
+// estructura de Trabajador para guardar la información final de sus tickets (como una especie de hash)
 struct Trabajador
 {
     char rut[10];
@@ -119,16 +119,16 @@ void ordernarLexicograficamente(Trabajador trabajadoresData[], int size)
 /*****
  * bool buscarRut
  ******
- * Basicamente busca si un rut esta en el arreglo de ruts
+ * Basicamente busca si un rut esta en el arreglo de ruts.
  ******
  * Input:
  * string ruts[] : arreglo de ruts
- * string value : es donde vamos a sacar la informacion para comparar
+ * string value : es donde vamos a sacar el rut para comparar,
  * int size : Recibe el tamaño del array ruts[]
  ******
  * Returns:
  * Retorna true si el valor esta en el arreglo de ruts.
- * Retorna falso si no se encuentra el valor en el arreglo de ruts.
+ * Retorna false si no se encuentra el valor en el arreglo de ruts.
  *
  *****/
 bool buscarRut(string ruts[], string value, int size)
@@ -143,11 +143,11 @@ bool buscarRut(string ruts[], string value, int size)
     return false;
 }
 
+// función principal
 int main()
 {
-    ifstream fp;
-
     // abriendo archivo binario para la lectura de tickets
+    ifstream fp;
     fp.open("casoT1/tickets.dat", ios::binary);
 
     // verificamos que el archivo se abre correctamente
@@ -211,9 +211,9 @@ int main()
 
     // se abre el archivo ASCII de servicios
     ifstream fp2;
+    fp2.open("casoT1/servicios.txt");
 
     // verifica que el archivo se abrió
-    fp2.open("casoT1/servicios.txt");
     if (!fp2.is_open())
     {
         cerr << " Error el abrir el archivo " << endl;
@@ -225,6 +225,8 @@ int main()
     getline(fp2, line);
     int numeroservicios = stoi(line);
     string servicios[numeroservicios];
+
+    // leemos todas las lineas restantes
     for (int i = 0; i < numeroservicios; i++)
     {
         getline(fp2, line);
@@ -232,7 +234,6 @@ int main()
     }
 
     /*
-
     Lo que pasa aquí abajo es lo siguiente:
         1.- crea un array del tamaño de servivios
         2.- crea una variable para guardar el servicios actual
@@ -303,6 +304,9 @@ int main()
     // se ordena por rut pasando valores por referencia
     ordernarLexicograficamente(trabajadoresData, total_ruts);
 
+    // cerramos archivo
+    fp2.close();
+
     // se abre el ultimo archivo que será la salida
     ofstream fp3;
     fp3.open("casoT1/salida.txt");
@@ -321,7 +325,7 @@ int main()
     }
 
     // se cierra el archivo para guardar lo escrito
-    fp2.close();
+    fp3.close();
 
     return 0;
 }
