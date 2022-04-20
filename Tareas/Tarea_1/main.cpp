@@ -22,13 +22,6 @@ struct Servicio
     char tiempoFin[6];
 };
 
-struct DatosServicio
-{
-    char rut[10];
-    string nombre;
-    int cantidad_mes = 0;
-};
-
 // Estructura de Trabajador que utilizaremos para guardar la información final de sus tickets (como una especie de hash)
 struct Trabajador
 {
