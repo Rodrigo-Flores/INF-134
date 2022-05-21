@@ -3,11 +3,11 @@ using namespace std;
 
 typedef int tipoElementoArbol;
 
-struct tNodoArbolBin
+struct tipoNodoArbolBin
 {
     tipoElementoArbol info;
-    tNodoArbolBin *izq;
-    tNodoArbolBin *der;
+    tipoNodoArbolBin *izq;
+    tipoNodoArbolBin *der;
 };
 
 class tABB
