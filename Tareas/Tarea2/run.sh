@@ -8,9 +8,4 @@ if [ $answer == 1 ]; then
 	rm program.out
 	echo ""
 	echo "End of the program..."
-	echo "Clear screen? (1/0): "
-	read cscreen
-	if [ $cscreen == 1 ]; then
-		clear
-	fi
 fi
