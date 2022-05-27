@@ -71,12 +71,27 @@ public:
     }
     void prev_value()
     {
-        tipoNodo *aux = current;
-        current = head;
-        while (current->next != aux)
-        {
-            current = current->next;
+        if (current != head) {
+            tipoNodo *aux = current;
+            current = head;
+            while (current->next != aux)
+            {
+                current = current->next;
+            }
         }
+    }
+    void restore_list()
+    {
+        current = head;
+        pos = 0;
+        while (current->next != NULL)
+        {
+            tipoNodo *aux = current->next;
+            current->next = aux->next;
+            delete aux;
+        }
+        head = tail = current;
+        size = 0;
     }
     void delete_list()
     {
@@ -90,11 +105,12 @@ public:
         head = tail = current = NULL;
         size = 0;
         pos = 0;
-    }        
+    }
     void print_reverse()
     {
         current = tail;
-        for (unsigned int i = size; i > 0; i--) {
+        for (unsigned int i = size; i > 0; i--)
+        {
             cout << current->info;
             this->prev_value();
         }
@@ -131,34 +147,41 @@ int main()
     list.moveToStart();
     while (file.get(c))
     {
-        switch (c)
+        if (c == '<')
         {
-        case '<':
             list.next_value();
-            break;
-        case '>':
+        }
+        else if (c == '>')
+        {
             list.prev_value();
-            break;
-        case '[':
+        }
+        else if (c == '[')
+        {
             list.moveToEnd();
-            break;
-        case ']':
+        }
+        else if (c == ']')
+        {
             list.moveToStart();
-            break;
-        default:
+        }
+        else if (c == '\n')
+        {
+            list.print_reverse();
+            list.restore_list();
+        }
+        else if (file.peek() == EOF)
+        {
             list.insert(c);
-        } 
+            list.print_reverse();
+            list.delete_list();
+        }
+        else
+        {
+            list.insert(c);
+        }
     }
-
-    // list.moveToStart();
-    // for (int i = 0; i < list.getSize(); i++) {
-    //     cout << list.getCurrent()->info;
-    //     list.next_value();
-    // }
+    list.print_reverse();
 
     file.close();
-
-    list.print_reverse();
 
     list.delete_list();
     return 0;
