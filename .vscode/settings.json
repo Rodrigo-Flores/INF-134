@@ -18,7 +18,8 @@
         "fstream": "cpp",
         "iosfwd": "cpp",
         "*.tcc": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
