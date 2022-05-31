@@ -5,7 +5,7 @@ typedef int tipoElementoArbol;
 
 struct tipoNodoArbolBin
 {
-    tipoElementoArbol info = NULL;
+    tipoElementoArbol info = int(NULL);
     tipoNodoArbolBin *izq = NULL;
     tipoNodoArbolBin *der = NULL;
 };
@@ -22,59 +22,77 @@ public:
         raiz = new tipoNodoArbolBin;
         nElems = 0;
     }
-    void recursive_insert(tipoElementoArbol e, tipoNodoArbolBin *nodo) {
-        if (e > nodo->info) {
-            if (nodo->der == NULL) {
+    void recursive_insert(tipoElementoArbol e, tipoNodoArbolBin *nodo)
+    {
+        if (e > nodo->info)
+        {
+            if (nodo->der == int(NULL))
+            {
                 nodo->der = new tipoNodoArbolBin;
                 nodo->der->info = e;
                 nElems++;
             }
-            else {
+            else
+            {
                 recursive_insert(e, nodo->der);
             }
-        } else if (e < raiz->info) {
-            if (nodo->izq == NULL) {
+        }
+        else if (e < raiz->info)
+        {
+            if (nodo->izq == int(NULL))
+            {
                 nodo->izq = new tipoNodoArbolBin;
                 nodo->izq->info = e;
                 nElems++;
             }
-            else {
+            else
+            {
                 recursive_insert(e, nodo->izq);
             }
-        } else {
-            return;
         }
     }
-    void insert(tipoElementoArbol elemento) {
-        if (raiz->info == NULL) {
+    void insert(tipoElementoArbol elemento)
+    {
+        if (raiz->info == int(NULL))
+        {
             raiz = new tipoNodoArbolBin;
             raiz->info = elemento;
             nElems++;
-        } else {
+        }
+        else
+        {
             recursive_insert(elemento, raiz);
         }
     }
-    void recursive_print(tipoNodoArbolBin *nodo) {
-        if (nodo->izq != NULL) {
+    void recursive_print(tipoNodoArbolBin *nodo)
+    {
+        if (nodo->izq != int(NULL))
+        {
             recursive_print(nodo->izq);
         }
         cout << nodo->info << " ";
-        if (nodo->der != NULL) {
+        if (nodo->der != int(NULL))
+        {
             recursive_print(nodo->der);
         }
     }
-    void print() {
-        if (raiz->info == NULL) {
+    void print()
+    {
+        if (raiz->info == int(NULL))
+        {
             cout << "El arbol esta vacio" << endl;
-        } else {
+        }
+        else
+        {
+            cout << raiz->info << "\n";
             recursive_print(raiz);
         }
     }
     void eraseABB(tipoNodoArbolBin *nodo)
     {
-        if (nodo->izq != NULL)
+        if (nodo->izq != int(NULL))
             eraseABB(nodo->izq);
-        if (nodo->der != NULL)
+        if (nodo->der != int(NULL))
             eraseABB(nodo->der);
         delete nodo;
     }
@@ -84,12 +102,17 @@ public:
 int main()
 {
     ABB arbol;
-    arbol.insert(5);
-    arbol.insert(3);
-    arbol.insert(7);
+    arbol.insert(0);
+    arbol.insert(1);
+    arbol.insert(-1);
     arbol.insert(2);
+    arbol.insert(-2);
+    arbol.insert(3);
+    arbol.insert(-3);
     arbol.insert(4);
-    arbol.insert(6);
+    arbol.insert(-4);
+    arbol.insert(5);
+    arbol.insert(-5);
 
     arbol.print();
 
