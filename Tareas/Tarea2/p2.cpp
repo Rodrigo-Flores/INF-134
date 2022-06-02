@@ -55,7 +55,6 @@ public:
     {
         if (raiz->info == int(NULL))
         {
-            raiz = new tipoNodoArbolBin;
             raiz->info = elemento;
             nElems++;
         }
@@ -88,6 +87,43 @@ public:
             recursive_print(raiz);
         }
     }
+    bool find(tipoElementoArbol e)
+    {
+        tipoNodoArbolBin *nodo = raiz;
+        while (nodo != int(NULL))
+        {
+            if (e == nodo->info)
+            {
+                return true;
+            }
+            else if (e > nodo->info)
+            {
+                nodo = nodo->der;
+            }
+            else
+            {
+                nodo = nodo->izq;
+            }
+        }
+        return false;
+    }
+    int recursive_rank(tipoElementoArbol e, tipoNodoArbolBin *nodo) {
+        // pre-order recursion
+        if (nodo == int(NULL)) {
+            return 0;
+        }
+        if (e == nodo->info) {
+            return 1;
+        }
+        if (e <= nodo->info) {
+            return recursive_rank(e, nodo->der) + 1 + recursive_rank(e, nodo->izq);
+        }
+        return recursive_rank(e, nodo->izq);
+    }
+    int rank(tipoElementoArbol e)
+    {   
+        return recursive_rank(e, raiz);   
+    }
     void eraseABB(tipoNodoArbolBin *nodo)
     {
         if (nodo->izq != int(NULL))
@@ -102,19 +138,24 @@ public:
 int main()
 {
     ABB arbol;
-    arbol.insert(0);
+    
+    // insert 1000000 elements
+    // for (int i = 0; i < 1000000; i++)
+    // {
+    //     arbol.insert(i);
+    // }
     arbol.insert(1);
-    arbol.insert(-1);
     arbol.insert(2);
-    arbol.insert(-2);
     arbol.insert(3);
-    arbol.insert(-3);
     arbol.insert(4);
-    arbol.insert(-4);
     arbol.insert(5);
-    arbol.insert(-5);
+    arbol.insert(6);
+    arbol.insert(7);
 
-    arbol.print();
+    // arbol.print();
+    // cout << arbol.find(8) << endl;
+    // arbol.recursive_find(1, arbol.get_raiz());
+    cout << arbol.rank(2) << endl;
 
     arbol.eraseABB(arbol.get_raiz());
     return 0;
