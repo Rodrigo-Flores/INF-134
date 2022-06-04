@@ -108,17 +108,17 @@ public:
         return false;
     }
     int recursive_rank(tipoElementoArbol e, tipoNodoArbolBin *nodo) {
-        // pre-order recursion
+        // search for the number of elements less than e in the tree
         if (nodo == int(NULL)) {
             return 0;
         }
-        if (e == nodo->info) {
-            return 1;
+        if (e < nodo->info) {
+            return recursive_rank(e, nodo->izq);
         }
-        if (e <= nodo->info) {
-            return recursive_rank(e, nodo->der) + 1 + recursive_rank(e, nodo->izq);
+        if (e >= nodo->info) {
+            return 1 + recursive_rank(e, nodo->der);
         }
-        return recursive_rank(e, nodo->izq);
+        return 0;
     }
     int rank(tipoElementoArbol e)
     {   
@@ -156,6 +156,8 @@ int main()
     // cout << arbol.find(8) << endl;
     // arbol.recursive_find(1, arbol.get_raiz());
     cout << arbol.rank(2) << endl;
+    cout << arbol.rank(4) << endl;
+    cout << arbol.rank(10) << endl;
 
     arbol.eraseABB(arbol.get_raiz());
     return 0;
