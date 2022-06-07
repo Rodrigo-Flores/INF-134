@@ -12,7 +12,7 @@ struct tipoNodo
 
 class Lista
 {
-// atribustos del objeto
+// atributos del objeto
 private:
     tipoNodo *head;
     tipoNodo *tail;

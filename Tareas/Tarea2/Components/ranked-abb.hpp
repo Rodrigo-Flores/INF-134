@@ -12,7 +12,7 @@ struct tipoNodoArbolBin
 
 class ABB
 {
-// atribustos del objeto
+// atributos del objeto
 private:
     tipoNodoArbolBin *raiz;
     unsigned int nElems;
@@ -29,7 +29,7 @@ public:
     * .......
     ******
     * Returns:
-    * ABB, retirna el objeto en si, esto permite crear el objeto y usarlo en el resto de los métodos
+    * ABB, retorna el objeto en si, esto permite crear el objeto y usarlo en el resto de los métodos
     *****/
     ABB()
     {
