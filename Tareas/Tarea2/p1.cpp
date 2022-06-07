@@ -19,12 +19,12 @@ int main()
         else if (c == '[') list.moveToEnd();
         else if (c == ']') list.moveToStart();
         else if (c == '\n') {
-            list.print_reverse();
+            list.export_list();
             list.restore_list();
         }
         else if (file.peek() == EOF) {
             list.insert(c);
-            list.print_reverse();
+            list.export_list();
             list.delete_list();
         }
         else list.insert(c);
