@@ -12,10 +12,11 @@ struct tipoNodoArbolBin
 
 class ABB
 {
+// atribustos del objeto
 private:
     tipoNodoArbolBin *raiz;
     unsigned int nElems;
-
+// dináminca y estática del objeto
 public:
     /*****
     * ABB ABB
