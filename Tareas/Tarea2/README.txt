@@ -1,3 +1,7 @@
+Recordatorio:
+    1.- Hay que cambiar el nombre del archivo de lectura para TDA Lista dentro de p1.cpp
+    2.- Se puede cambiar la ruta de destino del ouput del TDA Lista en export_list
+
 Recomendaciones al compilar y probar:
     1.- Para probar TDA lista: editar y correr desde p1.cpp
     2.- Para probar TDA ABB: editar y correr desde p2.cpp
