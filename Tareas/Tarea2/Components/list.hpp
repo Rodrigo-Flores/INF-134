@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 typedef char tipoElementoLista;
@@ -105,6 +106,32 @@ public:
         head = tail = current = NULL;
         size = 0;
         pos = 0;
+    }
+    /*****
+    * void export_list
+    ******
+    * Resumen Función
+    * exporta la lista formateada a un archivo externo (hay archivo de texto en la raiz por defecto)
+    ******
+    * Input:
+    * const char *filename: recibe la cadena de caracteres con el nombre del archivo, tiene por defecto el nombre de archivo "output.txt"
+    * .......
+    ******
+    * Returns:
+    * no retorna nada
+    *****/
+    void export_list(const char *filename = "output.txt")
+    {
+        ofstream file;
+        file.open(filename, ios::app);
+        current = tail;
+        for (unsigned int i = size; i > 0; i--)
+        {
+            file << current->info;
+            this->prev_value();            
+        }
+        file << endl;
+        file.close();
     }
     void print_reverse()
     {
