@@ -4,15 +4,20 @@ using namespace std;
 
 int main()
 {
+    /* EJEMPLO */
+
+    /*
     ABB arbol;
     
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10000; i++)
     {
         arbol.insert(i);
     }
 
-    cout << arbol.rank(10) << endl;
+    cout << arbol.rank(1000) << endl;
 
-    arbol.eraseABB(arbol.get_raiz());
+    arbol.erase_abb(arbol.get_raiz());
+    */
+   
     return 0;
 }
