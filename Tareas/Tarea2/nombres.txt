@@ -1,0 +1,20 @@
+Romina Aguilera, 202173572-0, P203:
+    1.- Documentación de TDA lista y TDA ABB
+    2.- TDA ABB
+        a.- Lógica de funcionamiento de rank
+    3.- TDA Lista
+        a.- a.- Lógica de algoritmo de lectura, almacenamiento y exportación de datos
+
+Ignacio Muñoz, 202173620-4, P202:
+    1.- Documentación de TDA lista y TDA ABB
+    2.- TDA ABB
+        a.- Lógica de funcionamiento de rank
+    3.- TDA Lista
+        a.- Lógica de algoritmo de lectura, almacenamiento y exportación de datos
+
+Rodrigo Flores, 202173523-2, P202:
+    1.- Documentación de TDA lista y TDA ABB
+    2.- TDA ABB
+        a.- TDA en todas sus partes
+    3.- TDA Lista
+        a.- TDA en todas sus partes
